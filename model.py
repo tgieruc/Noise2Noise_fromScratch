@@ -466,7 +466,6 @@ class Model(Module):
         self.optimizer = SGDMomentumOptimizer(self.net.params(), lr=self.lr)
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-
     def load_pretrained_model(self, model_path) -> None:
         ## This loads the parameters saved in bestmodel .pth into the model
         params = torch.load(model_path, map_location=self.device)
@@ -480,6 +479,8 @@ class Model(Module):
         self.net.train()
         n_data = len(train_input)
         batch_size = 64
+        self.loss_history = []
+
         for epoch in range(num_epochs):
             print(f'EPOCH: {epoch + 1}/{num_epochs}')
             loss = []
@@ -496,7 +497,7 @@ class Model(Module):
                     self.optimizer.step()
                 
                 pbar.set_description(f"loss: {np.mean(loss):.4f}")
-
+            self.loss_history.append(np.mean(loss))
             sum = 0
             for val in loss:
                 sum += val
