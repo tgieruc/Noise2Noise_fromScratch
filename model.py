@@ -461,9 +461,10 @@ class Model(Module):
         self.net = Sequential(self.skip5, self.decoder1abc)
 
         self.lr = 1e-10
+        self.momentum = 0.9
 
         self.loss = MSELoss()
-        self.optimizer = SGDMomentumOptimizer(self.net.params(), lr=self.lr)
+        self.optimizer = SGDMomentumOptimizer(self.net.params(), lr=self.lr, momentum=self.momentum)
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
     def load_pretrained_model(self, model_path) -> None:
@@ -471,14 +472,14 @@ class Model(Module):
         params = torch.load(model_path, map_location=self.device)
         self.net.set_params(params)
 
-    def train(self, train_input, train_target, num_epochs) -> None:
+    def train(self, train_input, train_target, num_epochs, batch_size = 64) -> None:
         train_input = (train_input.float() / 255).to(self.device)
         train_target = (train_target.float() / 255).to(self.device)
         self.net.cuda()
         self.optimizer = Optimizer(self.net.params(), lr=self.lr)
         self.net.train()
         n_data = len(train_input)
-        batch_size = 64
+        batch_size = batch_size
         self.loss_history = []
 
         for epoch in range(num_epochs):
