@@ -2,7 +2,7 @@
 [Colab](https://colab.research.google.com/github/tgieruc/Noise2Noise_fromScratch/blob/main/demo.ipynb)
 • [Paper](https://arxiv.org/abs/1803.04189)
 
-An implemenet of the [Noise2Noise](https://arxiv.org/abs/1803.04189) paper (Lehtinen et al., 2018), only using the PyTorch Tensor methods, with a working backpropagation.
+An implemenet of the [Noise2Noise](https://arxiv.org/abs/1803.04189) paper (Lehtinen et al., 2018), implementing everything from scratch, such as convolution and backpropagation.
 
 ## Data
 
